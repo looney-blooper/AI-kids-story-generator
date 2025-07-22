@@ -6,7 +6,7 @@ import ast
 
 if __name__ == "__main__":
     # Generate a story
-    question = "golden duck"
+    question = "detective duck named Ducky solves a mystery in a magical forest "
     story_response = generate_story(question)
     print("Story generated successfully!")
 
@@ -14,6 +14,7 @@ if __name__ == "__main__":
 
     story_steps = extract_story_steps(str(story_response['story_steps']))
     story_steps = ast.literal_eval(story_steps[0])
+
     print(story_steps)
     urls = []
     for i in range(5):

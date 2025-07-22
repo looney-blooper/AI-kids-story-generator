@@ -1,17 +1,21 @@
-from together import Together
+from langchain_google_genai import GoogleGenerativeAI
+from langchain.schema.output_parser import StrOutputParser
 import os
-import base64
 from dotenv import load_dotenv
+from AI_model.prompt_templates import generate_story_prompt
 load_dotenv()
-client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
-print("1. Generating an image for the scene...")
-scene = " **Lily Finds the Grey Garden.** Once, a kind little girl named Lily discovered a secret garden behind an old, stone wall. But it was a sad garden! The flowers were droopy, the grass was grey, and even the sunshine seemed to avoid it. In the middle of the garden, she found a tiny, empty watering can with a note that read: "
-response_img = client.images.generate(
-        prompt=scene+" illustrated in colorful storybook / comic style, soft lighting, magical atmosphere, pastel colors, child-friendly.",
-        model ="black-forest-labs/FLUX.1-schnell-Free",
-        steps = 3,
-        n=2,
-        format="b64_json"
-    )
-print("2. Image generated successfully!")
-print(response_img.data[0].b64_json)
+
+
+def generate_story(question: str):
+    """Generates a story using a language model and returns the response."""
+    llm = GoogleGenerativeAI(model="gemini-2.5-pro", 
+                             api_key=os.getenv("GOOGLE_API_KEY"))
+
+    prompt = generate_story_prompt()
+
+    chain = prompt | llm | StrOutputParser()
+
+    response_llm = chain.invoke({"question": question})
+    return response_llm
+
+print(generate_story("detective duck"))

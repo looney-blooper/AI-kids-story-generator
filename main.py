@@ -6,13 +6,12 @@ from post_image_generation.add_text_layer import add_text_to_image
 
 if __name__ == "__main__":
     # Step 1: Generate the story from question
-    question = "A detective duck wearing a detective costume, solving a mystery of a 'egg' in a small town."
+    question = "A detective duck wearing a detective suit is solving a mystery of an egg"
     raw_story = generate_story(question)
     print("Story generated successfully!")
     # Step 2: Extract structured information from the story
     story_response = extract_story_data(raw_story)
     story_steps = story_response["story_steps"]
-    print(story_steps)
     # Step 3: Generate images using each visual description
     for i in range(5):
         image_prompt = generate_image_prompt(

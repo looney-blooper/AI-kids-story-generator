@@ -26,10 +26,10 @@ def generate_image(prompt: str, index: int) -> str:
         width=512,
         height=512,
         seed=None,
-        format="url"  # ✅ Return image URL instead of base64
+        format="url"  
     )
 
-    image_url = response.data[0].url  # ✅ Safely access the URL
+    image_url = response.data[0].url  
     image_data = requests.get(image_url).content
 
     filename = f"{index}.png"
@@ -38,5 +38,5 @@ def generate_image(prompt: str, index: int) -> str:
     with open(filepath, "wb") as f:
         f.write(image_data)
 
-    print(f"✅ Image saved at: {filepath}")
+    print(f"Image saved at: {filepath}")
     return filepath

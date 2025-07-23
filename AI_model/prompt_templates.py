@@ -1,51 +1,41 @@
 from langchain.prompts import ChatPromptTemplate
 import re
 
-def generate_image_prompt(setting, style, character, current_scene, previous_scene=None):
+def generate_image_prompt(setting, style, character, visual_scene_description):
     prompt = f"""
-You are an image generation model helping illustrate a children's story.
-
-Follow these global story settings, style guidelines, and main character references across all scenes for consistency.
-
----
-
-**STORY SETTING**: {setting}  
-This setting should stay visually consistent across all generated images, with coherent backgrounds, environments, and atmosphere.
-
-**VISUAL STYLE**: {style}  
-Keep the art style, textures, lighting, and color palette aligned with this description in every image you generate.
-
-**MAIN CHARACTER**: {character}  
-Ensure this character’s appearance (clothes, facial features, posture, emotions) remains consistent in each scene where they appear.
-"""
-
-    if previous_scene:
-        prompt += f"""
-
----
-
-**PREVIOUS SCENE CONTEXT**:  
-{previous_scene}  
-
-Carry over all visual and narrative elements (characters, items, mood, etc.) from this scene into the current one unless explicitly changed.
-"""
-
-    prompt += f"""
+You are an image generation model helping illustrate a children's story. Focus on consistency and creativity across all visuals.
 
 ---
 
 **CURRENT SCENE TO ILLUSTRATE**:  
-{current_scene}  
+{visual_scene_description}  
 
-This is one part of a continuous story.  
-Ensure that:
-- The style and setting match previous scenes
-- The main character looks identical to earlier
-- Objects, characters, and environment remain consistent
-- Emotions and actions logically follow from the previous scene
+Depict this scene with clarity and imagination. Make sure it reflects the mood, actions, and setting described.
+
+---
+
+**MAIN CHARACTER**:  
+{character}  
+
+Ensure the main character's appearance — including clothing, posture, facial features, and expressions — stays consistent throughout all illustrations.
+
+---
+
+**STORY SETTING**:  
+{setting}  
+
+Match the environment, lighting, and background elements to this setting. Keep visual continuity across scenes.
+
+---
+
+**VISUAL STYLE**:  
+{style}  
+
+Maintain the same style, color palette, brush strokes, and tone across all images to unify the story visually.
 """
 
     return prompt
+
 
 
 def generate_story_prompt():
@@ -86,7 +76,7 @@ After each step, write:
  **Visual Scene Description**:  
 Briefly describe the scene that should be shown in the image. Include:
 - What’s happening  
-- Who is present and where they are  
+- Who is present and where they are and what they are doing
 - Emotions and actions  
 - Background, mood, lighting, and magical objects  
 

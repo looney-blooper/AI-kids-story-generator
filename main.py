@@ -1,31 +1,28 @@
 from AI_model.prompt_templates import generate_image_prompt, generate_story_prompt
 from AI_model.image_generator import generate_image
 from AI_model.generate_story import generate_story 
-from AI_model.extract_story_data import extract_story_data, extract_story_steps
+from AI_model.extract_story_data import extract_story_data, extract_story_steps, extract_visual_descriptions
 import ast
 
 if __name__ == "__main__":
-    # Generate a story
-    question = "detective duck named Ducky solves a mystery in a magical forest "
-    story_response = generate_story(question)
+    # Step 1: Generate the story from question
+    question = "A detective duck wearing a detective costume, solving a mystery of a egg."
+    raw_story = generate_story(question)
     print("Story generated successfully!")
-
-    story_response = extract_story_data(story_response)
-
-    story_steps = extract_story_steps(str(story_response['story_steps']))
-    story_steps = ast.literal_eval(story_steps[0])
-
+    # Step 2: Extract structured information from the story
+    story_response = extract_story_data(raw_story)
+    story_steps = story_response["story_steps"]
     print(story_steps)
+    # Step 3: Generate images using each visual description
     urls = []
     for i in range(5):
         image_prompt = generate_image_prompt(
             setting=story_response['story_setting'],
             style=story_response['story_style'],
             character=story_response['main_character'],
-            previous_scene=story_steps[i-1] if i > 0 else None,
-            current_scene=story_steps[i]
+            visual_scene_description=story_steps[i]["visual_scene_description"],
         )
-
+        print(i+1)
         generated_img = generate_image(image_prompt)
         urls.append(generated_img)
 

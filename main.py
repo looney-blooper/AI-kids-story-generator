@@ -6,7 +6,7 @@ import ast
 
 if __name__ == "__main__":
     # Step 1: Generate the story from question
-    question = "A detective duck wearing a detective costume, solving a mystery of a egg."
+    question = "A detective duck wearing a detective costume, solving a murder mystery in a small town."
     raw_story = generate_story(question)
     print("Story generated successfully!")
     # Step 2: Extract structured information from the story

@@ -9,8 +9,11 @@ def generate_image(prompt: str) -> str:
     response = client.images.generate(
         prompt=prompt,
         model="black-forest-labs/FLUX.1-schnell-Free",
-        steps=3,
-        n=2,
+        steps=1,
+        n=1,
+        width=512,
+        height=512,
+        seed=None,
         format="b64_json"
     )
     return response.data[0].url

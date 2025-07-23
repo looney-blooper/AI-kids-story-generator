@@ -14,7 +14,6 @@ if __name__ == "__main__":
     story_steps = story_response["story_steps"]
     print(story_steps)
     # Step 3: Generate images using each visual description
-    urls = []
     for i in range(5):
         image_prompt = generate_image_prompt(
             setting=story_response['story_setting'],
@@ -23,8 +22,6 @@ if __name__ == "__main__":
             visual_scene_description=story_steps[i]["visual_scene_description"],
         )
         print(i+1)
-        generated_img = generate_image(image_prompt)
-        urls.append(generated_img)
+        generated_img = generate_image(image_prompt,i+1)
 
-for i in range(5):
-    print(f"Image {i+1} URL: {urls[i]}")
+
